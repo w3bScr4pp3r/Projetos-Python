@@ -21,9 +21,9 @@ tl = tl.rename(columns={0: 'Taxa Let'})
 resultado = pd.concat([df_confirmados, df_mortos],
                    axis=1, join="inner").join(tl)
 
-top20 = resultado.head(20)
+top50 = resultado.head(50).sort_values(by='Taxa Let', ascending=False)
 
-print(top20)
+print(top50)
 
 analise = resultado.head(193).describe()
 
