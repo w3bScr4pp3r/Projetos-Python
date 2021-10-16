@@ -26,15 +26,7 @@ while True:
             soup = bs(page.content, 'html.parser')
             cont = soup.find(id='mw-content-text')
             texto = cont.get_text()
-            window['Output'].update(f'{texto}')
-
-            with open(busca+'.txt', 'wb') as f:
-
-                for cont in soup.find_all('p'):
-                    texto = cont.get_text()
-                    print(texto)
-                    f.write(texto.encode())
-            f.close()
+            window['Output'].update(f'{texto}')            
 
         except:
             
