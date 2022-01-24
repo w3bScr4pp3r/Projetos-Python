@@ -50,9 +50,12 @@ while True:
             destino.write('Malicious;IP;DNS;Open Ports;ISP;City;Country;Count\n')
 
             for item in csv_rows[1:]:
-
-                target = item[0]
-                count = item[1]
+                
+                #lembrando que o csv de origem tem que ter o IP na coluna 1, caso tem muitas colunas
+                
+                target = item[0] #IP
+                
+                count = item[1] #Qnt de incidentes com esse IP
 
                 response = rq.get(api_endpoint, headers=headers, params={'ipAddress':target})
 
