@@ -3,7 +3,7 @@ import pandas as pd
 confirmados = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
 mortos = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv')
 
-date = '10/9/21'  # Data no padrão m/d/aa
+date = '1/23/23'  # Data no padrão m/d/aa
 
 df_confirmados = pd.DataFrame(
     confirmados[["Country/Region", date]].groupby("Country/Region").sum())
