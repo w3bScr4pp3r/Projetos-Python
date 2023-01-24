@@ -1,33 +1,25 @@
 import smtplib
-import email.message
+from email.mime.text import MIMEText
 
-server = smtplib.SMTP('smtp.gmail.com:587')  
+# Dados de autenticação
+username = 'seuemail@gmail.com'
+password = 'suasenha'
 
-corpo_email = f"""
-<p>Olá,</p>
-<p>Este é um teste de e-mail, favor confirmar o recebimento.</p>
-<p>At.te,</p>
-<p>Daniel Moura Alves</p>
-"""
+# Informações do e-mail
+para = 'destinatario@exemplo.com'
+assunto = 'Assunto do e-mail'
+mensagem = 'Conteúdo da mensagem'
 
-msg = email.message.Message()
-msg['Subject'] = "assunto_do_email"
+# Criando o objeto de e-mail
+msg = MIMEText(mensagem)
+msg['To'] = para
+msg['Subject'] = assunto
 
-# Fazer antes (apenas na 1ª vez): Ativar Aplicativos não Seguros.
-# Gerenciar Conta Google -> Segurança -> Aplicativos não Seguros -> Habilitar
-# Caso mesmo assim dê o erro: smtplib.SMTPAuthenticationError: (534,
-# Você faz o login no seu e-mail e depois entra em: https://accounts.google.com/printUnlockCaptcha
+# Enviando o e-mail
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(username, password)
+server.send_message(msg)
+server.quit()
 
-msg['From'] = 'seu_email'
-msg['To'] = 'email_do_destinatario'
-password = 'sua_senha'
-msg.add_header('Content-Type', 'text/html')
-msg.set_payload(corpo_email)
-
-s = smtplib.SMTP('smtp.gmail.com: 587')
-s.starttls()
-# Login Credentials for sending the mail
-s.login(msg['From'], password)
-s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
-
-print('Email enviado')
+print('E-mail enviado com sucesso')
