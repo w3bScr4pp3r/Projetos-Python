@@ -1,50 +1,37 @@
-import pyautogui as pa
+import os
+import shutil
 
+path = "C:/Users/seu_usuario/Downloads"
 
-pa.PAUSE = 1 #Faz uma pausa de 1s entre os comandos
+# List all files in the directory
+files = os.listdir(path)
 
+# Define the extensions and their corresponding folders
+extensions = {
+    "pdf": "PDF Files",
+    "doc": "Word Files",
+    "docx": "Word Files",
+    "exe": "Programs",
+    "xls": "Excel Files",
+    "xlsx": "Excel Files",
+    "ppt": "PowerPoint Files",
+    "pptx": "PowerPoint Files",
+    "jpg": "Images",
+    "jpeg": "Images",
+    "png": "Images",
+    "txt": "Text Files",
+    "zip": "Archives",
+    "rar": "Archives"
+}
 
-senha = 'sua_senha'
-usuario = 'seu_usuario'
+# Create the folders
+for folder in extensions.values():
+    if not os.path.exists(path + "/" + folder):
+        os.makedirs(path + "/" + folder)
 
-pa.hotkey('ctrl','alt','t')
-
-pa.write('sudo su')
-pa.press('enter')
-
-pa.write(senha)
-pa.press('enter')
-
-pa.write(f'cd /home/{usuario}/Downloads')
-pa.press('enter')
-
-pa.write('Iniciando organização...')
-
-pa.write('mkdir videos && mkdir musicas && mkdir imagens && mkdir docs && mkdir docs/compactados && mkdir docs/word && mkdir docs/excel && mkdir docs/powerPoint && mkdir docs/pdf')
-pa.press('enter')
-
-pa.write('mv *.doc *.docx *.txt /docs/word')
-pa.press('enter')
-
-pa.write('mv *.xls *.csv *.xlsx /docs/excel')
-pa.press('enter')
-
-pa.write('mv *.ppt *.pptx /docs/powerPoint')
-pa.press('enter')
-
-pa.write('mv *.zip *.rar *.tar.gz *.tgz /docs/compactados')
-pa.press('enter')
-
-pa.write('mv *.pdf /docs/pdf')
-pa.press('enter')
-
-pa.write('mv *.mkv *.avi *.mp4 /videos')
-pa.press('enter')
-
-pa.write('mv *.jpg *.png /imagens')
-pa.press('enter')
-
-pa.write('mv *.mp3 *.m4a /musicas')
-pa.press('enter')
-
-pa.write('Organização concluída.')
+# Move the files to the corresponding folders
+for file in files:
+    name, ext = os.path.splitext(file)
+    ext = ext[1:] # remove the dot (.)
+    if ext in extensions:
+        shutil.move(path + "/" + file, path + "/" + extensions[ext] + "/" + file)
