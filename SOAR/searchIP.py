@@ -1,4 +1,4 @@
-import PySimpleGUIQt as sg
+import PySimpleGUI as sg
 import requests as rq
 import shodan
 import csv
