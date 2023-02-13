@@ -24,7 +24,7 @@ layout = [  [sg.Text('Origem: ')],
             [sg.Input(key='Destino'), sg.FileBrowse()],                        
             [sg.Button('Pesquisar', key='Search'), sg.Button('Limpar', key='Clear'), sg.Button('Sair', key='Quit')]]
 
-window = sg.Window('SearchIP v1.0 by Daniel M. Alves', layout)
+window = sg.Window('Pesquisador de IPs maliciosos by Daniel M. Alves', layout)
 
 while True:
     event, values = window.read()
@@ -47,7 +47,7 @@ while True:
 
         with open(f'{destino}', 'w') as destino:
 
-            destino.write('Malicious;IP;DNS;Open Ports;ISP;City;Country;Count\n')
+            destino.write('Malicioso;IP;DNS;Open Ports;ISP;City;Country;Vulns\n')
 
             for item in csv_rows[1:]:
                 
@@ -65,9 +65,9 @@ while True:
                     response_data = response.json()['data']
 
                     if response_data['abuseConfidenceScore'] >= 30:
-                        is_malicious = 'Yes'
+                        is_malicious = 'Sim'
                     else:
-                        is_malicious = 'No'
+                        is_malicious = 'Não'
 
                     if len(response_data['hostnames']) >= 1:
                         hostname = response_data['hostnames'][0]
@@ -86,13 +86,20 @@ while True:
                     else:
                         city = 'sem informação'
 
+                    if len(host['vulns']) >= 1:
+                        vulns = str(host['vulns'])
+                    else:
+                        vulns = 'sem informação'
+
                     country = response_data['countryCode']
 
                     destino.write(is_malicious+';'+target+';'+hostname +
-                                ';'+ports+';'+isp+';'+city+';'+country+';'+count+'\n')
+                                ';'+ports+';'+isp+';'+city+';'+country+';'+vulns+'\n')
 
                 except:
 
-                    destino.write('sem informação;'+target+';sem informação;sem informação;sem informação;sem informação;sem informação;'+count+'\n')
+                    destino.write('sem informação;'+target+';sem informação;sem informação;sem informação;sem informação;sem informação;'+vulns+'\n')
+
+        sg.popup('IPs analisados com sucesso!!')
 
 window.close()
